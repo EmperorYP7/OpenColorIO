@@ -4,7 +4,7 @@
 # Locate or install ilmbase
 #
 # Variables defined by this module:
-#   Half_FOUND - If FALSE, do not try to link to ilmbase
+#   Imath_FOUND - If FALSE, do not try to link to Imath
 #   Half_LIBRARY - Half library to link to
 #   Half_INCLUDE_DIR - Where to find half.h
 #   Half_VERSION - The version of the library
@@ -23,7 +23,7 @@
 #
 
 # IlmBase components may have the version in their name
-set(_Half_LIB_VER "${Half_FIND_VERSION_MAJOR}_${Half_FIND_VERSION_MINOR}")
+set(_Half_LIB_VER "${Imath_FIND_VERSION_MAJOR}_${Imath_FIND_VERSION_MINOR}")
 
 ###############################################################################
 ### Try to find package ###
@@ -91,7 +91,7 @@ if(NOT OCIO_INSTALL_EXT_PACKAGES STREQUAL ALL)
 
         # Get version from config header file
         if(Half_INCLUDE_DIR)
-            if(EXISTS "${Half_INCLUDE_DIR}/OpenEXR/IlmBaseConfig.h")
+            if(EXISTS "${Imath_INCLUDE_DIR}/config/ImathConfig.h")
                 set(_Half_CONFIG "${Half_INCLUDE_DIR}/OpenEXR/IlmBaseConfig.h")
             elseif(EXISTS "${Half_INCLUDE_DIR}/OpenEXR/OpenEXRConfig.h")
                 set(_Half_CONFIG "${Half_INCLUDE_DIR}/OpenEXR/OpenEXRConfig.h")
@@ -100,11 +100,7 @@ if(NOT OCIO_INSTALL_EXT_PACKAGES STREQUAL ALL)
 
         if(_Half_CONFIG)
             file(STRINGS "${_Half_CONFIG}" _Half_VER_SEARCH 
-                REGEX "^[ \t]*#define[ \t]+(OPENEXR|ILMBASE)_VERSION_STRING[ \t]+\"[.0-9]+\".*$")
-            if(_Half_VER_SEARCH)
-                string(REGEX REPLACE ".*#define[ \t]+(OPENEXR|ILMBASE)_VERSION_STRING[ \t]+\"([.0-9]+)\".*" 
-                    "\\2" Half_VERSION "${_Half_VER_SEARCH}")
-            endif()
+                REGEX "^[ \t]*#define[ \t]+IMATH_VERSION_STRING[ \t]+\"[.0-9]+\".*$")
         elseif(PC_Half_FOUND)
             set(Half_VERSION "${PC_Half_VERSION}")
         endif()
